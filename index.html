@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prompt API playground (native or polyfill)</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Prompt API playground</h1>
+      <p class="description">
+        Prompts an on-device small language model through the standard Prompt API
+        shape (window.LanguageModel). Uses the browser's native Prompt API when it
+        is present (for example Chrome or Edge with the on-device model flag
+        enabled), and otherwise falls back to the experimental prompt-api-polyfill
+        running a small model locally through Transformers.js, which works in any
+        modern browser. The same code path is used either way.
+      </p>
+
+      <div id="status" class="status status--pending">Detecting provider...</div>
+      <div id="gpu-note" class="gpu-note" hidden></div>
+
+      <div class="card">
+        <label for="system-prompt">System prompt</label>
+        <textarea id="system-prompt" spellcheck="false" rows="3">You are a helpful assistant. Your job is to answer the user's questions by searching their documents, chats and emails using the tools provided.</textarea>
+
+        <label for="prompt">User prompt</label>
+        <textarea id="prompt" spellcheck="false" rows="3">What were the follow ups from the offsite meeting notes?</textarea>
+
+        <div id="model-row">
+          <label for="model">Local model (polyfill only)</label>
+          <select id="model">
+            <option value="HuggingFaceTB/SmolLM2-360M-Instruct">SmolLM2-360M-Instruct (smallest, fastest)</option>
+            <option value="onnx-community/Llama-3.2-1B-Instruct-ONNX">Llama-3.2-1B-Instruct (balanced)</option>
+            <option value="onnx-community/Llama-3.2-3B-Instruct-ONNX">Llama-3.2-3B-Instruct (best quality, needs a real GPU)</option>
+          </select>
+        </div>
+
+        <div class="hint">
+          The model can call the tools below. It emits a TOOL_CALL, the app runs
+          the tool and feeds the result back, and the model reprocesses it into
+          the answer (this is emulated, not native tool calling; see the README).
+          Try "What is today's date?" for the date tool, or ask a two-tool
+          question like "What did I miss at the offsite, and how long ago was it?"
+          (compound questions are harder and work best on the 3B or native model).
+          The model picker only affects the polyfill path; WebGPU is needed for
+          usable speed (CPU/WASM is very slow).
+        </div>
+
+        <fieldset class="tools">
+          <legend>Tools</legend>
+          <div id="tools"></div>
+        </fieldset>
+
+        <div class="buttons">
+          <button id="run" class="primary">Prompt</button>
+          <button id="stop" disabled>Stop</button>
+          <button id="delete-model" title="Clear cached model files from the browser so a different model downloads fresh">Delete cached model</button>
+        </div>
+      </div>
+
+      <h2>Output</h2>
+      <pre id="output"></pre>
+
+      <div class="metrics">
+        <span>Provider: <b id="m-provider">-</b></span>
+        <span>Model: <b id="m-model">-</b></span>
+        <span>Tools: <b id="m-tools">-</b></span>
+        <span>Total time: <b id="m-time">-</b> ms</span>
+      </div>
+
+      <footer class="site-footer">
+        <p>
+          <a href="https://github.com/BaronKhan/prompt-api-polyfill-playground" target="_blank" rel="noopener">View the source on GitHub</a>
+        </p>
+        <p>Released under the MIT License. Provided as is, without warranty of any kind.</p>
+        <p>Last updated August 2026.</p>
+      </footer>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

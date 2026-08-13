@@ -1,0 +1,15 @@
+# Dependencies and build output.
+node_modules/
+dist/
+
+# Vite cache
+.vite/
+
+# Playwright CLI verification artifacts (snapshots, console logs)
+.playwright-cli/
+
+# Do NOT commit an npm lockfile. One generated against the public registry
+# embeds registry.npmjs.org URLs that can reintroduce corporate proxy/SSL
+# failures. yarn.lock is committed and is what CI uses.
+package-lock.json
+npm-shrinkwrap.json

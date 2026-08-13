@@ -1,0 +1,27 @@
+{
+  "name": "prompt-api-polyfill-playground",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "A tiny browser playground for the Prompt API (window.LanguageModel): uses the native Prompt API when available, otherwise the experimental prompt-api-polyfill with a small local model (Qwen2.5 / Llama-3.2 / Gemma / TinyLlama) via Transformers.js.",
+  "homepage": "https://baronkhan.github.io/prompt-api-polyfill-playground/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BaronKhan/prompt-api-polyfill-playground.git"
+  },
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.2.0",
+    "prompt-api-polyfill": "^1.20.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "vite": "^5.4.0"
+  }
+}
